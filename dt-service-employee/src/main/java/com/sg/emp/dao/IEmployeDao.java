@@ -10,5 +10,7 @@ public interface IEmployeDao {
 	Integer saveEmployeeData(EmployeeDTO empDTO);
 
 	List<Map<String,Object>> fetchchEmployee(String employeename);
+
+	List<Map<String, Object>> fetchchEmployeeByOrder();
 	
 }

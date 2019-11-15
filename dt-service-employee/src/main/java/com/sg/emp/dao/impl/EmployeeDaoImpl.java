@@ -47,4 +47,13 @@ public class EmployeeDaoImpl implements IEmployeDao {
 		
 	}
 
+	@Override
+	public List<Map<String, Object>> fetchchEmployeeByOrder() {
+		String sqlQuery="select firstname,lastname,gender,dob,department from employee  order by firstname asc";
+		List<Map<String,Object>> empList= pgJdbcTemplate.queryForList(sqlQuery);
+		 logger.info("retrived employee list size "+empList.size());
+
+		return empList;
+	}
+
 }

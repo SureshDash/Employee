@@ -131,4 +131,42 @@ public class EmployeeController {
 		}
 
 	}
+	
+	@GetMapping(value = "/fetch",  produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<WSResponseStatus> empFetchByOrder()
+			throws EmployeeExceptions {
+		WSResponseStatus wsResponseStatus = null;
+		List<Map<String,Object>> empList = null;
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		try {
+			logger.info("requested employee details ");
+
+
+			
+			empList = empService.fetchEmployeeByOrder();
+			logger.info("employee details  found in db"+empList.size());
+
+			wsResponseStatus = new WSResponseStatus(); 
+			wsResponseStatus.setStatusMessage("Employee data fetched successfully");
+			wsResponseStatus.setStatus(EmployeeConstants.SUCCESS);
+			wsResponseStatus.setStatusCode(EmployeeConstants.SUCCESS_CODE);
+			wsResponseStatus.setData(empList);
+			return new ResponseEntity<WSResponseStatus>(wsResponseStatus, headers, HttpStatus.OK);
+		} catch (EmployeeExceptions e) {
+			logger.error(EmployeeConstants.ERROR_OCCURED + e);
+			wsResponseStatus = new WSResponseStatus();
+			wsResponseStatus.setStatus(EmployeeConstants.FAILURE);
+			wsResponseStatus.setStatusCode(EmployeeConstants.ERR_CODE_BAD_REQUEST);
+			wsResponseStatus.setStatusMessage(e.getMessage());
+			return new ResponseEntity<WSResponseStatus>(wsResponseStatus, headers, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(EmployeeConstants.ERROR_OCCURED + e);
+			wsResponseStatus = new WSResponseStatus();
+			wsResponseStatus.setStatus(EmployeeConstants.FAILURE);
+			wsResponseStatus.setStatusCode(EmployeeConstants.ERR_CODE_INT_SERVER_ERR);
+			wsResponseStatus.setStatusMessage(e.getMessage());
+			return new ResponseEntity<WSResponseStatus>(wsResponseStatus, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
 }

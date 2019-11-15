@@ -36,5 +36,10 @@ IEmployeDao iEmpDao;
 		return iEmpDao.fetchchEmployee(employeename);
 	}
 
+	public List<Map<String, Object>> fetchEmployeeByOrder() {
+		// TODO Auto-generated method stub
+		return iEmpDao.fetchchEmployeeByOrder();
+	}
+
 	
 }
